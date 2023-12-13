@@ -1,6 +1,6 @@
 import streamlit as st
 from keras.models import load_model
-from keras.preprocessing import image
+from keras.preprocessing.image import load_img, img_to_array
 from PIL import Image
 import numpy as np
 
@@ -30,7 +30,7 @@ if file is not None:
     st.image(image, use_column_width=True)
 
     # Convert image to array
-    img_array = image.img_to_array(image)
+    img_array = img_to_array(image)
     img_array = np.expand_dims(img_array, axis=0)
 
     # Classify image
