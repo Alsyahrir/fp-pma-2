@@ -3,10 +3,16 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from PIL import Image
 import numpy as np
-import io  # Add this import for the io module
+import io
+import os  # Add this import for the os module
 from util import set_background, classify
 
-set_background('./bgs/bg5.png')
+# Get the absolute path to the current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Set the background
+background_image_path = os.path.join(current_dir, 'bgs', 'bg5.png')
+set_background(background_image_path)
 
 # Set title
 st.title('Pneumonia classification')
@@ -18,10 +24,12 @@ st.header('Please upload a chest X-ray image')
 file = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
 
 # Load classifier
-model = load_model('model/harist.h5')
+model_path = os.path.join(current_dir, 'model', 'harist.h5')
+model = load_model(model_path)
 
 # Load class names
-with open('./model/labels.txt', 'r') as f:
+labels_path = os.path.join(current_dir, 'model', 'labels.txt')
+with open(labels_path, 'r') as f:
     class_names = [a[:-1].split(' ')[1] for a in f.readlines()]
 
 # Display image
