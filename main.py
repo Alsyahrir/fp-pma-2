@@ -1,6 +1,8 @@
 import streamlit as st
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
+from PIL import Image
+import numpy as np
 from util import set_background, classify
 
 set_background('./bgs/bg5.png')
