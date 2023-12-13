@@ -1,7 +1,7 @@
 import streamlit as st
 from keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
-from tensorflow.keras.models import load_models
+from tensorflow.keras.models import load_model  # Fix the typo here
 from PIL import Image
 import numpy as np
 from util import classify, preprocess_image, set_background
