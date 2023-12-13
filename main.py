@@ -3,6 +3,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from PIL import Image
 import numpy as np
+import io  # Add this import for the io module
 from util import set_background, classify
 
 set_background('./bgs/bg5.png')
