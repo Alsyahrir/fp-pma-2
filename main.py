@@ -18,7 +18,7 @@ st.header('Please upload a chest X-ray image')
 file = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
 
 # Load classifier
-model = load_model('C:/Users/ACER/Downloads/pneumonia-classification-web-app-python-streamlit-main/model/model.h5')
+model = load_model('./model/model.h5')
 
 # Load class names
 with open('./model/labels.txt', 'r') as f:
