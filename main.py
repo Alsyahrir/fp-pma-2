@@ -1,6 +1,6 @@
 import streamlit as st
 from keras.models import load_model
-from keras.preprocessing import image as keras_image
+from keras.preprocessing.image import img_to_array, load_img
 from PIL import Image
 
 from util import classify, set_background
@@ -30,7 +30,7 @@ if file is not None:
         st.image(image, use_column_width=True)
 
         # classify image
-        image_array = keras_image.img_to_array(image)
+        image_array = img_to_array(image)
         image_array = image_array.reshape((1,) + image_array.shape)
         class_name, conf_score = classify(image_array, model, class_names)
 
