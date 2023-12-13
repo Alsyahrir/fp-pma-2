@@ -1,5 +1,4 @@
 import base64
-
 import streamlit as st
 from PIL import ImageOps, Image
 import numpy as np
@@ -29,19 +28,22 @@ def set_background(image_file):
     st.markdown(style, unsafe_allow_html=True)
 
 
-def classify(image, model, class_names):
+def classify(image_data, model, class_names):
     """
-    This function takes an image, a model, and a list of class names and returns the predicted class and confidence
+    This function takes raw image data, a model, and a list of class names and returns the predicted class and confidence
     score of the image.
 
     Parameters:
-        image (PIL.Image.Image): An image to be classified.
+        image_data (bytes): Raw image data from Streamlit file uploader.
         model (tensorflow.keras.Model): A trained machine learning model for image classification.
         class_names (list): A list of class names corresponding to the classes that the model can predict.
 
     Returns:
         A tuple of the predicted class name and the confidence score for that prediction.
     """
+    # Convert raw image data to PIL Image
+    image = Image.open(io.BytesIO(image_data)).convert('RGB')
+    
     # convert image to (224, 224)
     image = ImageOps.fit(image, (224, 224), Image.Resampling.LANCZOS)
 
