@@ -29,7 +29,8 @@ if file is not None:
     st.image(image, use_column_width=True)
 
     # classify image
-    image_array = keras_image.img_to_array(keras_image.load_img(file, target_size=(224, 224)))
+    image_array = keras_image.img_to_array(image)
+    image_array = image_array.reshape((1,) + image_array.shape)
     class_name, conf_score = classify(image_array, model, class_names)
 
     # write classification
