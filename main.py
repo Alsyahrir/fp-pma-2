@@ -25,14 +25,17 @@ with open('./model/labels.txt', 'r') as f:
 
 # display image
 if file is not None:
-    image = Image.open(file).convert('RGB')
-    st.image(image, use_column_width=True)
+    try:
+        image = Image.open(file).convert('RGB')
+        st.image(image, use_column_width=True)
 
-    # classify image
-    image_array = keras_image.img_to_array(image)
-    image_array = image_array.reshape((1,) + image_array.shape)
-    class_name, conf_score = classify(image_array, model, class_names)
+        # classify image
+        image_array = keras_image.img_to_array(image)
+        image_array = image_array.reshape((1,) + image_array.shape)
+        class_name, conf_score = classify(image_array, model, class_names)
 
-    # write classification
-    st.write("## {}".format(class_name))
-    st.write("### score: {}%".format(int(conf_score * 1000) / 10))
+        # write classification
+        st.write("## {}".format(class_name))
+        st.write("### score: {}%".format(int(conf_score * 1000) / 10))
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
