@@ -1,40 +1,41 @@
 import streamlit as st
 from keras.models import load_model
 from keras.preprocessing import image as keras_image
-from keras.applications.imagenet_utils import preprocess_input, decode_predictions
 from PIL import Image
+import numpy as np
 
-# Load your model
+from util import classify, set_background
+
+set_background('./bgs/bg5.png')
+
+# Set title
+st.title('Pneumonia classification')
+
+# Set header
+st.header('Please upload a chest X-ray image')
+
+# Upload file
+file = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
+
+# Load classifier
 model = load_model('./model/harist.h5')
 
 # Load class names
 with open('./model/labels.txt', 'r') as f:
     class_names = [a[:-1].split(' ')[1] for a in f.readlines()]
 
-# Set title and header
-st.title('Pneumonia Classification')
-st.header('Upload a chest X-ray image')
-
-# Upload file through Streamlit
-file = st.file_uploader('Choose a file', type=['jpeg', 'jpg', 'png'])
-
-# Display image and perform classification
+# Display image
 if file is not None:
     image = Image.open(file).convert('RGB')
-    st.image(image, caption='Uploaded Image.', use_column_width=True)
+    st.image(image, use_column_width=True)
 
-    # Preprocess the image for your model
+    # Convert image to array
     img_array = keras_image.img_to_array(image)
-    img_array = img_array / 255.0  # Normalize the image
-    img_array = keras_image.smart_resize(img_array, (224, 224))
-    img_array = preprocess_input(img_array)
     img_array = np.expand_dims(img_array, axis=0)
 
-    # Make predictions
-    predictions = model.predict(img_array)
-    decoded_predictions = decode_predictions(predictions, top=1)[0]
-    class_name, conf_score = decoded_predictions[0][1], decoded_predictions[0][2]
+    # Classify image
+    class_name, conf_score = classify(img_array, model, class_names)
 
-    # Write classification results
-    st.write("## Prediction: {}".format(class_name))
-    st.write("### Confidence Score: {}%".format(round(conf_score * 100, 2)))
+    # Write classification
+    st.write("## {}".format(class_name))
+    st.write("### score: {}%".format(int(conf_score * 1000) / 10))
