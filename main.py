@@ -6,9 +6,6 @@ import numpy as np
 
 from util import classify, set_background
 
-pip install keras
-pip install Pillow
-
 set_background('./bgs/bg5.png')
 
 # Set title
