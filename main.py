@@ -1,10 +1,10 @@
 import streamlit as st
 from keras.models import load_model
-from keras.preprocessing.image import load_img, img_to_array
+from keras.preprocessing.image import img_to_array, load_img
+from tensorflow.keras.models import load_models
 from PIL import Image
 import numpy as np
-
-from util import classify, set_background
+from util import classify, preprocess_image, set_background
 
 set_background('./bgs/bg5.png')
 
@@ -18,7 +18,7 @@ st.header('Please upload a chest X-ray image')
 file = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
 
 # Load classifier
-model = load_model('./model/harist.h5')
+model = load_model('C:/Users/ACER/Downloads/pneumonia-classification-web-app-python-streamlit-main/model/model.h5')
 
 # Load class names
 with open('./model/labels.txt', 'r') as f:
